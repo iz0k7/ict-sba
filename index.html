@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習進度管理系統</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #progressList { margin-top: 20px; }
+        .progress-item { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>學習進度管理系統</h1>
+    <input type="text" id="newItem" placeholder="輸入學習項目" />
+    <button onclick="addItem()">添加項目</button>
+    
+    <div id="progressList"></div>
+
+    <script>
+        const progressList = [];
+
+        function addItem() {
+            const newItem = document.getElementById('newItem').value;
+            if (newItem) {
+                progressList.push({ item: newItem, completed: false });
+                document.getElementById('newItem').value = '';
+                renderList();
+            }
+        }
+
+        function renderList() {
+            const listDiv = document.getElementById('progressList');
+            listDiv.innerHTML = '';
+            progressList.forEach((progress, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'progress-item';
+                itemDiv.innerText = progress.item + (progress.completed ? ' (已完成)' : '');
+                const completeButton = document.createElement('button');
+                completeButton.innerText = '標記為完成';
+                completeButton.onclick = () => markAsCompleted(index);
+                itemDiv.appendChild(completeButton);
+                listDiv.appendChild(itemDiv);
+            });
+        }
+
+        function markAsCompleted(index) {
+            progressList[index].completed = true;
+            renderList();
+        }
+    </script>
+</body>
+</html>
